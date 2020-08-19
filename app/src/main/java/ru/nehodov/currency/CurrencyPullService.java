@@ -26,6 +26,6 @@ public class CurrencyPullService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         CurrencyRepository repository = new CurrencyRepository(getApplication());
         repository.refreshRates();
-        Log.d(TAG, "execute a task in a service");
+        Log.d(TAG, "Rates were refreshed");
     }
 }
