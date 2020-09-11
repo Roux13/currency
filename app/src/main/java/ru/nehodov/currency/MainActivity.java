@@ -36,23 +36,25 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(CurrencyViewModel.class);
         viewModel.gerRates().observe(this, rates -> adapter.setRates(rates));
         RecyclerView recycler = findViewById(R.id.currencyList);
-        Intent refreshIntent = new Intent(this, CurrencyPullService.class);
-        startService(refreshIntent);
+        Intent refreshIntent = new Intent(this, CurrencyPullJobService.class);
+        CurrencyPullJobService.enqueueWork(this, refreshIntent);
         recycler.setLayoutManager(new LinearLayoutManager(this));
         recycler.setAdapter(adapter);
         FloatingActionButton refreshActionBtn = findViewById(R.id.refreshActionButton);
         refreshActionBtn.setOnClickListener(
                 v -> {
-                    startService(refreshIntent);
+                    CurrencyPullJobService.enqueueWork(this, refreshIntent);
                     Toast.makeText(this, "Rates refreshed", Toast.LENGTH_SHORT).show();
                 });
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         long repeatInterval = TimeUnit.MINUTES.toMillis(1);
         long triggerTime = SystemClock.elapsedRealtime() + repeatInterval;
         pendingIntent = PendingIntent.getService(
-                this, 0, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                this, 0,
+                new Intent(this, CurrencyPullService.class),
+                PendingIntent.FLAG_UPDATE_CURRENT);
         if (alarmManager != null) {
-            alarmManager.setInexactRepeating(
+            alarmManager.setRepeating(
                     AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime,
                     repeatInterval, pendingIntent);
         }

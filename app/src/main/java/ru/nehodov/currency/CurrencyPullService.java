@@ -7,11 +7,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
-
-import java.util.concurrent.Executors;
-
 import ru.nehodov.currency.repository.CurrencyRepository;
 
 public class CurrencyPullService extends IntentService {
