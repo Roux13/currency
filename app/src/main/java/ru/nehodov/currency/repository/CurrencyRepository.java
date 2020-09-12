@@ -1,6 +1,7 @@
 package ru.nehodov.currency.repository;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
@@ -21,8 +22,8 @@ public class CurrencyRepository {
 
     private final CurrencyDao currencyDao;
 
-    public CurrencyRepository(Application application) {
-        CurrencyDb db = CurrencyDb.getInstance(application);
+    public CurrencyRepository(Context applicationContext) {
+        CurrencyDb db = CurrencyDb.getInstance(applicationContext);
         this.currencyDao = db.getCurrencyDao();
         this.exchangeRatesApi = new NetworkService().getApi();
     }

@@ -24,12 +24,12 @@ public abstract class CurrencyDb extends RoomDatabase {
 
     public abstract CurrencyDao getCurrencyDao();
 
-    public static CurrencyDb getInstance(final Context context) {
+    public static CurrencyDb getInstance(final Context applicationContext) {
         if (instance == null) {
             synchronized (CurrencyDb.class) {
                 if (instance == null) {
                     instance = Room.databaseBuilder(
-                            context.getApplicationContext(),
+                            applicationContext,
                             CurrencyDb.class,
                             DB_NAME)
                             .build();

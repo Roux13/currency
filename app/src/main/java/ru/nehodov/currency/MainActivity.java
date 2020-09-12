@@ -21,7 +21,6 @@ import ru.nehodov.currency.adapters.CurrencyAdapter;
 public class MainActivity extends AppCompatActivity {
 
     private CurrencyViewModel viewModel;
-
     private CurrencyAdapter adapter;
 
     private AlarmManager alarmManager;
@@ -31,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         adapter = new CurrencyAdapter();
         viewModel = new ViewModelProvider(this).get(CurrencyViewModel.class);
         viewModel.gerRates().observe(this, rates -> adapter.setRates(rates));
@@ -44,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         refreshActionBtn.setOnClickListener(
                 v -> {
                     CurrencyPullJobService.enqueueWork(this, refreshIntent);
-                    Toast.makeText(this, "Rates refreshed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Rates are refreshed", Toast.LENGTH_SHORT).show();
                 });
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         long repeatInterval = TimeUnit.MINUTES.toMillis(1);
